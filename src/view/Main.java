@@ -46,15 +46,15 @@ public class Main {
 
                     break;
                 case "3":
-//                    PessoaController.cadastrarPessoasAleatorias();
-//                    MedicoController.cadastrarMedicoAleatorias();
-//                    FranquiaController.cadastrarFranquiasAleatorias();
-//                    //UnidadeController.cadastrarUnidadesAleatorias();
-//                    ConsultaController.cadastrarConsultasAleatorias();
-//                    InfoConsultaController.cadastrarInfoConsultasAleatorias();
-//                    ProcedimentoController.cadastrarProcedimentosAleatorios();
-//                    FinanceiroADMController.cadastrarFinanceirosADMAleatorios();
-//                    FinanceiroMedicoController.cadastrarFinanceirosMedicosAleatorios();
+                    PessoaController.cadastrarPessoasAleatorias();
+                    MedicoController.cadastrarMedicoAleatorias();
+                    FranquiaController.cadastrarFranquiasAleatorias();
+                    //UnidadeController.cadastrarUnidadesAleatorias();
+                    //ConsultaController.cadastrarConsultasAleatorias();
+                   // InfoConsultaController.cadastrarInfoConsultasAleatorias();
+                    //ProcedimentoController.cadastrarProcedimentosAleatorios();
+                    //FinanceiroADMController.cadastrarFinanceirosADMAleatorios();
+                    //FinanceiroMedicoController.cadastrarFinanceirosMedicosAleatorios();
                     System.out.println("Dados gerados...");
 
                     break;
