@@ -18,15 +18,16 @@ import model.enums.EstadoConsulta;
 import model.enums.TipoMovimento;
 
 public class InfoConsultaDAO {
-	private Connection conexao = null;
+
+    private Connection conexao = null;
 
     public InfoConsultaDAO() {
         this.conexao = ConnectionFactory.getConnection();
     }
-	private static List<InfoConsulta> infoConsultas = new ArrayList<>();
+    private static List<InfoConsulta> infoConsultas = new ArrayList<>();
     private static int id = 1;
 
-    public void cadastrarInfoConsulta(LocalDateTime data, String hora, EstadoConsulta estado, Medico medico, Pessoa paciente, double valor, Unidade unidade, String descricao) {
+    public void cadastrarInfoConsulta(LocalDateTime data, String hora, String estado, Medico medico, Pessoa paciente, double valor, Unidade unidade, String descricao) {
         String sql = "INSERT INTO info_consulta (data, hora, estado, medico_id, paciente_id, valor, unidade_id, descricao) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
             stmt.setObject(1, data);
@@ -48,7 +49,6 @@ public class InfoConsultaDAO {
             System.out.println("Erro ao cadastrar a infoConsulta no banco de dados: " + e.getMessage());
         }
     }
-
 
     public void atualizarInfoConsulta(int id, String descricao) {
         String sql = "UPDATE info_consulta SET descricao = ? WHERE id = ?";
@@ -89,19 +89,19 @@ public class InfoConsultaDAO {
             if (rs.next()) {
                 LocalDateTime data = rs.getObject("data", LocalDateTime.class);
                 String hora = rs.getString("hora");
-                EstadoConsulta estado = EstadoConsulta.valueOf(rs.getString("estado"));
+                String estado = rs.getString("estado");
                 int medicoId = rs.getInt("medico_id");
                 int pacienteId = rs.getInt("paciente_id");
                 double valor = rs.getDouble("valor");
                 int unidadeId = rs.getInt("unidade_id");
                 String descricao = rs.getString("descricao");
-                
+
                 MedicoDao medicoDao = new MedicoDao();
                 Medico medico = medicoDao.buscarMedico(medicoId);
-                
+
                 PessoaDAO pessoaDAO = new PessoaDAO();
                 Pessoa paciente = pessoaDAO.buscarPorId(pacienteId);
-                
+
                 UnidadeDAO unidadeDAO = new UnidadeDAO();
                 Unidade unidade = unidadeDAO.buscarUnidade(unidadeId);
 
@@ -126,7 +126,7 @@ public class InfoConsultaDAO {
         }
         return infoConsultasMedico;
     }
-    
+
     public static List<InfoConsulta> listarInfoConsultasPorPessoa(Pessoa pessoa) {
         List<InfoConsulta> infoConsultasPessoa = new ArrayList<>();
         for (InfoConsulta infoConsulta : infoConsultas) {

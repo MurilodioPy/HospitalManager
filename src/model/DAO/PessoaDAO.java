@@ -222,7 +222,6 @@ public class PessoaDAO {
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
 
             //LocalDateTime now = pessoa.getDataModificacao();
-
             stmt.setString(1, pessoa.getNome());
             stmt.setString(2, pessoa.getEndereco());
             stmt.setString(3, pessoa.getCpf());
@@ -231,7 +230,7 @@ public class PessoaDAO {
             stmt.setString(6, pessoa.getSenha());
             stmt.setString(7, pessoa.getTipoUsuario());
             java.sql.Timestamp dateNow = java.sql.Timestamp.valueOf(pessoa.getDataModificacao());
-            stmt.setTimestamp(8, dateNow );
+            stmt.setTimestamp(8, dateNow);
             stmt.setInt(9, pessoa.getId());
             stmt.executeUpdate();
             // Atualizar a pessoa no ArrayList
@@ -274,14 +273,7 @@ public class PessoaDAO {
             rs = stmt.executeQuery();
             // itera no ResultSet
             while (rs.next()) {
-                int id = rs.getInt("id");
-                String nome = rs.getString("nome");
-                String endereco = rs.getString("endereco");
-                String cpf = rs.getString("cpf");
-                String telefone = rs.getString("telefone");
-                String login = rs.getString("login");
-                String senha = rs.getString("senha");
-                String tipoUsuario = rs.getString("tipoUsuario");
+
                 java.sql.Timestamp timestamp = rs.getTimestamp("DataCriacao");
                 java.sql.Timestamp dataMod = rs.getTimestamp("DataModificacao");
                 LocalDateTime dataCriacao = timestamp.toLocalDateTime();
@@ -289,14 +281,14 @@ public class PessoaDAO {
 
                 Pessoa p = new Pessoa();
 
-                p.setId(id);
-                p.setNome(nome);
-                p.setEndereco(endereco);
-                p.setCpf(cpf);
-                p.setTelefone(telefone);
-                p.setLogin(login);
-                p.setSenha(senha);
-                p.setTipoUsuario(tipoUsuario);
+                p.setId(rs.getInt("id"));
+                p.setNome(rs.getString("nome"));
+                p.setEndereco(rs.getString("endereco"));
+                p.setCpf(rs.getString("cpf"));
+                p.setTelefone(rs.getString("telefone"));
+                p.setLogin(rs.getString("login"));
+                p.setSenha(rs.getString("senha"));
+                p.setTipoUsuario(rs.getString("tipoUsuario"));
                 p.setDataCriacao(dataCriacao);
                 p.setDataModificacao(dataModificacao);
                 pessoas.add(p);

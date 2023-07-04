@@ -50,7 +50,7 @@ public class FinanceiroMedicoController {
 
     private static Scanner scanner = new Scanner(System.in);
     private static Calendar calendar = Calendar.getInstance();
-    
+
     public static void cadastrarFinanceirosMedicosAleatorios() {
         for (int i = 0; i < 2; i++) {
             FinanceiroMedico financeiroMedico = FinanceiroMedico.gerarFinanceiroMedicoAleatorio();
@@ -93,7 +93,7 @@ public class FinanceiroMedicoController {
                     int id = scanner.nextInt();
                     System.out.println("Digite o valor médico:");
                     double valorMedicoedit = scanner.nextDouble();
-                    
+
                     System.out.println("Digite o estado:");
                     String estadoStrEdit = scanner.next();
                     PgtoMedico estadoEdit;
@@ -103,8 +103,7 @@ public class FinanceiroMedicoController {
                         System.out.println("Estado inválido");
                         return;
                     }
-                    
-                    
+
                     System.out.println("Digite a franquia:");
                     double franquiaedit = scanner.nextDouble();
                     FinanceiroMedicoDAO.atualizarFinanceiroMedico(id, valorMedicoedit, estadoEdit, franquiaedit);

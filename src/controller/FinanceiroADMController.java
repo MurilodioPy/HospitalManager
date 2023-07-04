@@ -47,6 +47,7 @@ public class FinanceiroADMController {
     }
 
     public static void realizarPagamentoAdministradora() {
+        ConsultaController consutControl = new ConsultaController();
         // Obter a data atual
         Date dataAtual = new Date();
 
@@ -60,7 +61,7 @@ public class FinanceiroADMController {
         // Calcular o valor a ser pago
         double valorBase = 1000.0;
         double faturamentoTotal = 0.0;
-        for (Consulta consulta : ConsultaController.listarConsultas()) {
+        for (Consulta consulta : consutControl.listarConsultas()) {
             faturamentoTotal += consulta.getValor();
         }
         for (Procedimento procedimento : ProcedimentoController.listarProcedimentos()) {
@@ -76,6 +77,7 @@ public class FinanceiroADMController {
         // Exibir mensagem de confirmação
         System.out.println("Pagamento à administradora realizado com sucesso!");
     }
+
     public static void cadastrarFinanceirosADMAleatorios() {
 
         for (int i = 0; i < 2; i++) {

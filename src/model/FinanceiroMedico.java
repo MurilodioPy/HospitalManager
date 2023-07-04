@@ -80,40 +80,41 @@ public class FinanceiroMedico {
     public void setDataModificacao(Date dataModificacao) {
         this.dataModificacao = dataModificacao;
     }
-    
+
     private static PgtoMedico gerarEstadoProcedimentoAleatorio() {
-    	PgtoMedico[] estados = PgtoMedico.values();
+        PgtoMedico[] estados = PgtoMedico.values();
         Random random = new Random();
         int index = random.nextInt(estados.length);
         return estados[index];
     }
-    
+
     private static String gerarDescricaoAleatoria() {
         String[] descricoes = {"Consulta", "Exame", "Procedimento", "Cirurgia"};
         Random random = new Random();
         int index = random.nextInt(descricoes.length);
         return descricoes[index];
     }
-    
+
     private static int proximoId = 1;
 
     private static int gerarNovoId() {
         return proximoId++;
     }
+
     @Override
     public String toString() {
-        return "ID: " + id +
-               ", Valor Médico: " + valorMedico +
-               ", Estado: " + estado +
-               ", Franquia: " + franquia +
-               ", Descrição: " + descricao +
-               ", Data de Criação: " + dataCriacao +
-               ", Data de Modificação: " + dataModificacao;
+        return "ID: " + id
+                + ", Valor Médico: " + valorMedico
+                + ", Estado: " + estado
+                + ", Franquia: " + franquia
+                + ", Descrição: " + descricao
+                + ", Data de Criação: " + dataCriacao
+                + ", Data de Modificação: " + dataModificacao;
     }
+
     public static FinanceiroMedico gerarFinanceiroMedicoAleatorio() {
-    	
-    	
-    	Random random = new Random();
+
+        Random random = new Random();
         int id = gerarNovoId();
         double valorMedico = random.nextDouble() * 1000; // Gera um valor aleatório entre 0 e 1000
         PgtoMedico estado = gerarEstadoProcedimentoAleatorio();

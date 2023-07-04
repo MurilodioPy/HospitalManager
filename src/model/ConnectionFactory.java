@@ -18,8 +18,8 @@ public class ConnectionFactory {
     private static final String url = "jdbc:mysql://localhost:3306/manager";
 //    private static final String username = "root";
 //    private static final String password = "admin";
-     private static final String username = "manager";
-     private static final String password = "1234";
+    private static final String username = "manager";
+    private static final String password = "1234";
 
     private static Connection connection;
 

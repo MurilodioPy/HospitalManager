@@ -1,6 +1,5 @@
 package model.DAO;
 
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,6 +14,7 @@ import model.Pessoa;
 import model.Unidade;
 
 public class UnidadeDAO {
+
     private Connection connection = null;
 
     public UnidadeDAO() {
@@ -29,14 +29,15 @@ public class UnidadeDAO {
         PessoaDAO pessoaDAO = new PessoaDAO();
         Pessoa pessoaResponsavel = pessoaDAO.buscarPorId(unidade.getResponsavel().getId());
 
-        String query = "INSERT INTO unidade (nome, cidade, endereco, dataCriacao, responsavel, id_franquia) VALUES (?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO unidade (nome, cidade, endereco, dataCriacao, dataModificacao, responsavel, id_franquia) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, unidade.getNome());
             statement.setString(2, unidade.getCidade());
             statement.setString(3, unidade.getEndereco());
             statement.setTimestamp(4, Timestamp.valueOf(unidade.getDataCriacao()));
-            statement.setInt(5, pessoaResponsavel.getId());
-            statement.setInt(6, franquia.getId());
+            statement.setTimestamp(5, Timestamp.valueOf(unidade.getDataCriacao()));
+            statement.setInt(6, pessoaResponsavel.getId());
+            statement.setInt(7, franquia.getId());
 
             statement.executeUpdate();
             return true;
@@ -114,8 +115,7 @@ public class UnidadeDAO {
     public List<Unidade> listarUnidades() {
         List<Unidade> unidades = new ArrayList<>();
         String query = "SELECT * FROM unidade";
-        try (PreparedStatement statement = connection.prepareStatement(query);
-                ResultSet resultSet = statement.executeQuery(query)) {
+        try (PreparedStatement statement = connection.prepareStatement(query); ResultSet resultSet = statement.executeQuery(query)) {
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
                 String nome = resultSet.getString("nome");

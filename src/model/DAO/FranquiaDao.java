@@ -70,14 +70,14 @@ public class FranquiaDao {
                 + "`dataModificacao` = ? WHERE (`id` = ?)";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            
+
             stmt.setString(1, franquia.getNome());
             stmt.setString(2, franquia.getCnpj());
             stmt.setString(3, franquia.getCidade());
             stmt.setString(4, franquia.getEndereco());
             stmt.setInt(5, franquia.getResponsavel().getId());
             java.sql.Timestamp dateNow = java.sql.Timestamp.valueOf(franquia.getDataModificacao());
-            stmt.setTimestamp(8, dateNow );
+            stmt.setTimestamp(8, dateNow);
             stmt.setInt(7, franquia.getId());
             stmt.executeUpdate();
 
@@ -169,8 +169,6 @@ public class FranquiaDao {
                 java.sql.Timestamp dataMod = rs.getTimestamp("DataModificacao");
                 LocalDateTime dataCriacao = timestamp.toLocalDateTime();
                 LocalDateTime dataModificacao = dataMod.toLocalDateTime();
-                
-                
 
                 Franquia f = new Franquia();
 

@@ -38,7 +38,7 @@ public class PessoaController {
 
 //    public boolean editarPessoa(int id, String login, String novoNome, String novoEndereco, String novoCpf, String novoTelefone) {
     public boolean editarPessoa(Pessoa pessoa) {
-       
+
         if (pessoa == null) {
             return false; // Pessoa não encontrada
         }
@@ -134,49 +134,49 @@ public class PessoaController {
                                 break;
                             }
                             System.out.print("Digite o novo nome da pessoa "
-                                    + "(ou pressione Enter para manter o valor atual): \n " 
+                                    + "(ou pressione Enter para manter o valor atual): \n "
                                     + pessoaEditada.getNome() + " ");
                             nome = sc.nextLine();
                             if (!nome.isEmpty()) {
                                 pessoaEditada.setNome(nome);
                             }
                             System.out.print("Digite o novo endereço da pessoa "
-                                    + "(ou pressione Enter para manter o valor atual): \n" 
+                                    + "(ou pressione Enter para manter o valor atual): \n"
                                     + pessoaEditada.getEndereco() + " ");
                             endereco = sc.nextLine();
                             if (!endereco.isEmpty()) {
                                 pessoaEditada.setEndereco(endereco);
                             }
                             System.out.print("Digite o novo CPF da pessoa "
-                                    + "(ou pressione Enter para manter o valor atual): \n" 
+                                    + "(ou pressione Enter para manter o valor atual): \n"
                                     + pessoaEditada.getCpf() + " ");
                             cpf = sc.nextLine();
                             if (!cpf.isEmpty()) {
                                 pessoaEditada.setCpf(cpf);
                             }
                             System.out.print("Digite o novo telefone da pessoa "
-                                    + "(ou pressione Enter para manter o valor atual): \n" 
+                                    + "(ou pressione Enter para manter o valor atual): \n"
                                     + pessoaEditada.getTelefone() + " ");
                             telefone = sc.nextLine();
                             if (!telefone.isEmpty()) {
                                 pessoaEditada.setTelefone(telefone);
                             }
                             System.out.print("Digite o novo login da pessoa "
-                                    + "(ou pressione Enter para manter o valor atual): \n" 
+                                    + "(ou pressione Enter para manter o valor atual): \n"
                                     + pessoaEditada.getLogin() + " ");
                             login = sc.nextLine();
                             if (!login.isEmpty()) {
                                 pessoaEditada.setLogin(login);
                             }
                             System.out.print("Digite a nova senha da pessoa "
-                                    + "(ou pressione Enter para manter o valor atual): \n" 
+                                    + "(ou pressione Enter para manter o valor atual): \n"
                                     + pessoaEditada.getSenha() + " ");
                             senha = sc.nextLine();
                             if (!senha.isEmpty()) {
                                 pessoaEditada.setSenha(senha);
                             }
                             System.out.print("Digite o novo tipo de usuário da pessoa "
-                                    + "(ou pressione Enter para manter o valor atual): \n" 
+                                    + "(ou pressione Enter para manter o valor atual): \n"
                                     + pessoaEditada.getTipoUsuario() + " ");
                             tipoUsuario = sc.nextLine();
                             if (!tipoUsuario.isEmpty()) {

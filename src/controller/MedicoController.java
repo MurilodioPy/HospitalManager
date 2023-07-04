@@ -130,12 +130,12 @@ public class MedicoController {
 
         //Consulta[] consultasUltimoMes = ConsultaDAO.pesquisarConsultasPorMedicoNoPeriodo(medico, dataInicio.getTime(), dataFim.getTime());
         List<Procedimento> procedimentosUltimoMes = null;
-		try {
-			procedimentosUltimoMes = ProcedimentoController.pesquisarProcedimentosPorMedicoNoPeriodo(consultas, dataInicioLocalDateTime, dataFimLocalDateTime);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+        try {
+            procedimentosUltimoMes = ProcedimentoController.pesquisarProcedimentosPorMedicoNoPeriodo(consultas, dataInicioLocalDateTime, dataFimLocalDateTime);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
         // Calcular o montante total pago ao médico
         double montanteTotalPago = 0.0;
@@ -179,13 +179,13 @@ public class MedicoController {
                         System.out.println("Digite o seu ID para conferir permissão: ");
                         idBuscaPessoa = sc.nextInt();
                         sc.nextLine(); // para consumir a quebra de linha deixada pelo nextInt
-                        //PessoaController pessoaController = new PessoaController();
-                        Pessoa buscarPessoa = null; // Inicializa o objeto como nulo
+                        PessoaController pessoaController = new PessoaController();
+                        Pessoa buscarPessoa = pessoaController.buscarPessoaPorId(idBuscaPessoa); 
 
                         // Aqui você precisa buscar a pessoa pelo ID informado
-                        if (Main.pessoa != null && Main.pessoa.getId() == idBuscaPessoa) {
-                            buscarPessoa = Main.pessoa;
-                        }
+//                        if (Main.pessoa != null && Main.pessoa.getId() == idBuscaPessoa) {
+//                            buscarPessoa = Main.pessoa;
+//                        }
 
                         if (buscarPessoa != null) {
                             if (buscarPessoa.getTipoUsuario().equals("DonoFranquia") || buscarPessoa.getTipoUsuario().equals("DonoUnidade")) {
@@ -251,16 +251,15 @@ public class MedicoController {
                                 if (medico == null) {
                                     System.out.println("Médico não encontrado.");
                                 } else {
-                                    System.out.print("Digite o novo nome do médico (atual: " + medico.getNome() + "): ");
+                                    System.out.print("Digite o novo nome do médico (atual: " + medico.getPessoa().getNome() + "): ");
                                     String nome = sc.nextLine();
-                                    System.out.print(
-                                            "Digite o novo endereço do médico (atual: " + medico.getEndereco() + "): ");
+                                    System.out.print("Digite o novo endereço do médico (atual: " + medico.getPessoa().getEndereco() + "): ");
                                     String endereco = sc.nextLine();
-                                    System.out.print("Digite o novo CPF do médico (atual: " + medico.getCpf() + "): ");
+                                    System.out.print("Digite o novo CPF do médico (atual: " + medico.getPessoa().getCpf() + "): ");
                                     String cpf = sc.nextLine();
-                                    System.out.print("Digite o novo login do médico (atual: " + medico.getLogin() + "): ");
+                                    System.out.print("Digite o novo login do médico (atual: " + medico.getPessoa().getLogin() + "): ");
                                     String login = sc.nextLine();
-                                    System.out.print("Digite a nova senha do médico (atual: " + medico.getSenha() + "): ");
+                                    System.out.print("Digite a nova senha do médico (atual: " + medico.getPessoa().getSenha() + "): ");
                                     String senha = sc.nextLine();
                                     System.out.print("Confirme a nova senha do médico: ");
                                     String confirmacaoSenha = sc.nextLine();
@@ -270,11 +269,10 @@ public class MedicoController {
                                         break;
                                     }
                                     System.out.print(
-                                            "Digite o novo telefone do médico (atual: " + medico.getTelefone() + "): ");
+                                            "Digite o novo telefone do médico (atual: " + medico.getPessoa().getTelefone() + "): ");
                                     String telefone = sc.nextLine();
 
-                                    System.out.print("Digite a nova especialidade do médico (atual: "
-                                            + medico.getEspecialidade() + "): ");
+                                    System.out.print("Digite a nova especialidade do médico (atual: "+ medico.getEspecialidade() + "): ");
                                     String especialidade = sc.nextLine();
 
                                     boolean atualizado = medicoController.editarMedico(id, login, nome, endereco, cpf, telefone,
@@ -286,14 +284,6 @@ public class MedicoController {
                                         System.out.println("Não foi possível atualizar o médico.");
                                     }
 
-                                    boolean atualizado1 = medicoController.editarMedico(id, login, nome, endereco, cpf, telefone,
-                                            id, especialidade);
-
-                                    if (atualizado1) {
-                                        System.out.println("Médico atualizado com sucesso!");
-                                    } else {
-                                        System.out.println("Não foi possível atualizar o médico.");
-                                    }
                                 }
                             }
                             break;
@@ -307,13 +297,13 @@ public class MedicoController {
                             if (medico == null) {
                                 System.out.println("Médico não encontrado.");
                             } else {
-                                System.out.println("Nome: " + medico.getNome());
-                                System.out.println("Endereço: " + medico.getEndereco());
-                                System.out.println("CPF: " + medico.getCpf());
-                                System.out.println("Login: " + medico.getLogin());
-                                System.out.println("Senha: " + medico.getSenha());
-                                System.out.println("Telefone: " + medico.getTelefone());
-                                System.out.println("Tipo de usuário: " + medico.getTipoUsuario());
+                                System.out.println("Nome: " + medico.getPessoa().getNome());
+                                System.out.println("Endereço: " + medico.getPessoa().getEndereco());
+                                System.out.println("CPF: " + medico.getPessoa().getCpf());
+                                System.out.println("Login: " + medico.getPessoa().getLogin());
+                                System.out.println("Senha: " + medico.getPessoa().getSenha());
+                                System.out.println("Telefone: " + medico.getPessoa().getTelefone());
+                                System.out.println("Tipo de usuário: " + medico.getPessoa().getTipoUsuario());
                                 System.out.println("Especialidade: " + medico.getEspecialidade());
                             }
                             break;

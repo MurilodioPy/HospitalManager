@@ -7,7 +7,6 @@ import java.util.Random;
 
 import model.enums.EstadoProcedimento;
 
-
 public class Procedimento {
 
     private int id;
@@ -103,35 +102,35 @@ public class Procedimento {
     public void setDataModificacao(LocalDateTime dataModificacao) {
         this.dataModificacao = dataModificacao;
     }
-    
+
     private static int proximoId = 1;
 
     private static int gerarNovoId() {
         return proximoId++;
     }
-    
+
     @Override
     public String toString() {
-        return "Procedimento{" +
-                "Id: " + id +
-                ", Nome: '" + nome + '\'' +
-                ", Consulta: " + consulta +
-                ", Dia/Horario: " + diaHorario +
-                ", Estado: " + estado + '\'' +
-                ", Valor: " + valor +
-                ", Laudo: " + laudo + '\'' +
-                ", Data de criação: " + dataCriacao +
-                ", Data de Modificação: " + dataModificacao +
-                '}';
+        return "Procedimento{"
+                + "Id: " + id
+                + ", Nome: '" + nome + '\''
+                + ", Consulta: " + consulta
+                + ", Dia/Horario: " + diaHorario
+                + ", Estado: " + estado + '\''
+                + ", Valor: " + valor
+                + ", Laudo: " + laudo + '\''
+                + ", Data de criação: " + dataCriacao
+                + ", Data de Modificação: " + dataModificacao
+                + '}';
     }
-    
+
     private static EstadoProcedimento gerarEstadoProcedimentoAleatorio() {
         EstadoProcedimento[] estados = EstadoProcedimento.values();
         Random random = new Random();
         int index = random.nextInt(estados.length);
         return estados[index];
     }
-    
+
     public static Procedimento gerarProcedimentoAleatorio() {
         Random random = new Random();
 

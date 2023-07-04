@@ -14,8 +14,8 @@ import java.sql.Statement;
  * @author murilodio
  */
 public class conectionTest {
-    
-    public static void main(String[] args){
+
+    public static void main(String[] args) {
         Connection connection = ConnectionFactory.getConnection();
         try (Statement statement = connection.createStatement()) {
             String sqlQuery = "SELECT * FROM pessoas";
@@ -33,5 +33,4 @@ public class conectionTest {
             e.printStackTrace();
         }
     }
-}  
-
+}

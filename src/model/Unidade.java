@@ -20,10 +20,10 @@ public class Unidade extends Franquia {
     }
 
     public Unidade(String nome, String cnpj, String cidade, String endereco, Pessoa responsavel,
-                   LocalDateTime dataCriacao, LocalDateTime dataModificacao, int idUnidade,
-                   String cidadeUnidade, String enderecoUnidade, Pessoa responsavelUnidade,
-                   Franquia franquia, LocalDateTime dataCriacaoUnidade,
-                   LocalDateTime dataModificacaoUnidade) {
+            LocalDateTime dataCriacao, LocalDateTime dataModificacao, int idUnidade,
+            String cidadeUnidade, String enderecoUnidade, Pessoa responsavelUnidade,
+            Franquia franquia, LocalDateTime dataCriacaoUnidade,
+            LocalDateTime dataModificacaoUnidade) {
         super(nome, cnpj, cidade, endereco, responsavel, dataCriacao, dataModificacao);
         this.idUnidade = idUnidade;
         this.cidadeUnidade = cidadeUnidade;
@@ -109,14 +109,14 @@ public class Unidade extends Franquia {
 
     @Override
     public String toString() {
-        return "Unidade{" +
-                "ID Unidade: " + idUnidade +
-                ", Cidade: " + cidadeUnidade +
-                ", Endereço: " + enderecoUnidade +
-                ", Responsável pela Unidade: " + responsavelUnidade +
-                ", Data de Criação: " + dataCriacaoUnidade +
-                ", Data de Modificação: " + dataModificacaoUnidade +
-                '}';
+        return "Unidade{"
+                + "ID Unidade: " + idUnidade
+                + ", Cidade: " + cidadeUnidade
+                + ", Endereço: " + enderecoUnidade
+                + ", Responsável pela Unidade: " + responsavelUnidade
+                + ", Data de Criação: " + dataCriacaoUnidade
+                + ", Data de Modificação: " + dataModificacaoUnidade
+                + '}';
     }
 
     private static int proximoId = 1;

@@ -1,5 +1,7 @@
 package model.DAO;
 
+import controller.MedicoController;
+import controller.PessoaController;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,10 +15,10 @@ import model.Pessoa;
 
 public class MedicoDao {
 
-    private Connection conexao = null;
+    private Connection connection = null;
 
     public MedicoDao() {
-        this.conexao = ConnectionFactory.getConnection();
+        this.connection = ConnectionFactory.getConnection();
     }
     private static List<Pessoa> medicos = new ArrayList<>();
 
@@ -24,7 +26,6 @@ public class MedicoDao {
             String senha, String tipoUsuario, int crm, String especialidade) {
         PessoaDAO dao = new PessoaDAO();
         Pessoa pessoa = new Pessoa();
-
         pessoa.setNome(nome);
         pessoa.setEndereco(endereco);
         pessoa.setCpf(cpf);
@@ -47,7 +48,7 @@ public class MedicoDao {
                 + "(idPessoas, crm, especialidade, dataCriacao, dataModificacao) "
                 + "VALUES (?, ?, ?, ?, ?)";
 
-        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
 
             stmt.setString(1, String.valueOf(id));
             stmt.setString(2, String.valueOf(crm));
@@ -69,7 +70,8 @@ public class MedicoDao {
     }
 
     public boolean editarMedico(int id, String login, String novoNome, String novoEndereco, String novoCpf, String novoTelefone, int novoCrm, String novaEspecialidade) {
-        try (Connection connection = ConnectionFactory.getConnection(); PreparedStatement statement = connection.prepareStatement("UPDATE medicos SET nome = ?, endereco = ?, cpf = ?, telefone = ?, crm = ?, especialidade = ? WHERE id = ?")) {
+        try (Connection connection = ConnectionFactory.getConnection(); 
+                PreparedStatement statement = connection.prepareStatement("UPDATE medicos SET nome = ?, endereco = ?, cpf = ?, telefone = ?, crm = ?, especialidade = ? WHERE id = ?")) {
             statement.setString(1, novoNome);
             statement.setString(2, novoEndereco);
             statement.setString(3, novoCpf);
@@ -101,28 +103,45 @@ public class MedicoDao {
     }
 
     public Medico buscarMedico(int id) {
-        try (Connection connection = ConnectionFactory.getConnection(); PreparedStatement statement = connection.prepareStatement("SELECT * FROM medicos WHERE id = ?")) {
-            statement.setInt(1, id);
+        String sql = "SELECT * FROM medicos WHERE id = ?";
+        PessoaController pessoaControl = new PessoaController();
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
 
-            try (ResultSet result = statement.executeQuery()) {
-                if (result.next()) {
-                    return criarMedicoAPartirDoResultSet(result);
-                }
+            if (rs.next()) {
+                Medico med = new Medico();
+                med.setId(rs.getInt("id"));
+                med.setCrm(rs.getInt("crm"));
+                med.setEspecialidade(rs.getString("especialidade"));
+                med.setPessoa(pessoaControl.buscarPessoaPorId(rs.getInt("idPessoas")));
+                java.sql.Timestamp timestamp = rs.getTimestamp("DataCriacao");
+                java.sql.Timestamp dataMod = rs.getTimestamp("DataModificacao");
+                LocalDateTime dataCriacao = timestamp.toLocalDateTime();
+                LocalDateTime dataModificacao = dataMod.toLocalDateTime();
+                med.setDataCriacao(dataCriacao);
+                med.setDataModificacao(dataModificacao);
+                return med;
             }
         } catch (SQLException e) {
-            System.out.println("Erro ao buscar médico!");
-            e.printStackTrace();
+            System.out.println("Erro ao buscar medico por ID!");
         }
         return null; // Médico não encontrado
     }
 
     public Medico buscarMedicoPorCRM(int crm) {
-        try (Connection connection = ConnectionFactory.getConnection(); PreparedStatement statement = connection.prepareStatement("SELECT * FROM medicos WHERE crm = ?")) {
+        MedicoController medControl = new MedicoController();
+        PessoaController pessoaControl = new PessoaController();
+        try (Connection connection = ConnectionFactory.getConnection(); 
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM medicos WHERE crm = ?")) {
             statement.setInt(1, crm);
 
-            try (ResultSet result = statement.executeQuery()) {
-                if (result.next()) {
-                    return criarMedicoAPartirDoResultSet(result);
+            try (ResultSet rs = statement.executeQuery()) {
+                while (rs.next()) {
+                    Medico medico = medControl.buscarMedico(rs.getInt("id"));
+                    medico.setPessoa(pessoaControl.buscarPessoaPorId(rs.getInt("idPessoas")));
+                    
+                    return medico;
                 }
             }
         } catch (SQLException e) {
@@ -134,12 +153,14 @@ public class MedicoDao {
 
     public List<Medico> listarMedicos() {
         List<Medico> medicos = new ArrayList<>();
-
-        try (Connection connection = ConnectionFactory.getConnection(); PreparedStatement statement = connection.prepareStatement("SELECT * FROM medicos")) {
-
-            try (ResultSet result = statement.executeQuery()) {
-                while (result.next()) {
-                    Medico medico = criarMedicoAPartirDoResultSet(result);
+        MedicoController medControl = new MedicoController();
+        PessoaController pessoaControl = new PessoaController();
+        try (Connection connection = ConnectionFactory.getConnection(); 
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM medicos")) {
+            try (ResultSet rs = statement.executeQuery()) {
+                while (rs.next()) {
+                    Medico medico = medControl.buscarMedico(rs.getInt("id"));
+                    medico.setPessoa(pessoaControl.buscarPessoaPorId(rs.getInt("idPessoas")));
                     medicos.add(medico);
                 }
             }
@@ -147,7 +168,6 @@ public class MedicoDao {
             System.out.println("Erro ao listar médicos!");
             e.printStackTrace();
         }
-
         return medicos;
     }
 

@@ -1,5 +1,6 @@
 package model.DAO;
 
+import controller.ConsultaController;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,66 +15,68 @@ import model.Procedimento;
 import model.enums.EstadoProcedimento;
 
 public class ProcedimentoDAO {
-	private Connection conexao = null;
 
-	public ProcedimentoDAO() {
-		this.conexao = ConnectionFactory.getConnection();
-	}
+    private Connection conexao = null;
 
-	private static List<Procedimento> procedimentos = new ArrayList<>();
-	//private static int id = 1;
+    public ProcedimentoDAO() {
+        this.conexao = ConnectionFactory.getConnection();
+    }
 
-	public void cadastrarProcedimento(String nome, int idConsulta, LocalDateTime diaHorario,
-	        EstadoProcedimento estado, double valor, String laudo) {
-	    String sql = "INSERT INTO procedimento (nome, consulta_id, dia_horario, estado, valor, laudo, data_criacao, data_modificacao) "
-	            + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    ConsultaController consutControl = new ConsultaController();
+    private static List<Procedimento> procedimentos = new ArrayList<>();
+    //private static int id = 1;
 
-	    try (PreparedStatement statement = conexao.prepareStatement(sql)) {
+    public void cadastrarProcedimento(String nome, int idConsulta, LocalDateTime diaHorario,
+            EstadoProcedimento estado, double valor, String laudo) {
+        String sql = "INSERT INTO procedimento (nome, consulta_id, dia_horario, estado, valor, laudo, data_criacao, data_modificacao) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-	        statement.setString(1, nome);
-	        statement.setInt(2, idConsulta);
-	        statement.setObject(3, diaHorario);
-	        statement.setString(4, estado.name());
-	        statement.setDouble(5, valor);
-	        statement.setString(6, laudo);
-	        statement.setObject(7, LocalDateTime.now());
-	        statement.setObject(8, LocalDateTime.now());
+        try (PreparedStatement statement = conexao.prepareStatement(sql)) {
 
-	        statement.executeUpdate();
+            statement.setString(1, nome);
+            statement.setInt(2, idConsulta);
+            statement.setObject(3, diaHorario);
+            statement.setString(4, estado.name());
+            statement.setDouble(5, valor);
+            statement.setString(6, laudo);
+            statement.setObject(7, LocalDateTime.now());
+            statement.setObject(8, LocalDateTime.now());
 
-	    } catch (SQLException e) {
-	        System.out.println("Erro ao cadastrar procedimento: " + e.getMessage());
-	    }
-	}
+            statement.executeUpdate();
 
-	public void atualizarProcedimento(int id, String nome, Consulta consulta, LocalDateTime diaHorario,
-			EstadoProcedimento estado, double valor, String laudo) {
-		String sql = "UPDATE procedimento SET nome = ?, consulta_id = ?, dia_horario = ?, estado = ?, valor = ?, laudo = ?, "
-				+ "data_modificacao = ? WHERE id = ?";
+        } catch (SQLException e) {
+            System.out.println("Erro ao cadastrar procedimento: " + e.getMessage());
+        }
+    }
 
-		try (PreparedStatement statement = conexao.prepareStatement(sql)) {
+    public void atualizarProcedimento(int id, String nome, Consulta consulta, LocalDateTime diaHorario,
+            EstadoProcedimento estado, double valor, String laudo) {
+        String sql = "UPDATE procedimento SET nome = ?, consulta_id = ?, dia_horario = ?, estado = ?, valor = ?, laudo = ?, "
+                + "data_modificacao = ? WHERE id = ?";
 
-			statement.setString(1, nome);
-			statement.setInt(2, consulta.getId());
-			statement.setObject(3, diaHorario);
-			statement.setString(4, estado.name());
-			statement.setDouble(5, valor);
-			statement.setString(6, laudo);
-			statement.setObject(7, LocalDateTime.now());
-			statement.setInt(8, id);
+        try (PreparedStatement statement = conexao.prepareStatement(sql)) {
 
-			statement.executeUpdate();
+            statement.setString(1, nome);
+            statement.setInt(2, consulta.getId());
+            statement.setObject(3, diaHorario);
+            statement.setString(4, estado.name());
+            statement.setDouble(5, valor);
+            statement.setString(6, laudo);
+            statement.setObject(7, LocalDateTime.now());
+            statement.setInt(8, id);
 
-		} catch (SQLException e) {
-			System.out.println("Erro ao atualizar procedimento: " + e.getMessage());
-		}
-	}
-	
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println("Erro ao atualizar procedimento: " + e.getMessage());
+        }
+    }
+
     public void removerProcedimento(int id) {
         String sql = "DELETE FROM procedimento WHERE id = ?";
 
         try (
-             PreparedStatement statement = conexao.prepareStatement(sql)) {
+                PreparedStatement statement = conexao.prepareStatement(sql)) {
 
             statement.setInt(1, id);
             statement.executeUpdate();
@@ -83,12 +86,12 @@ public class ProcedimentoDAO {
         }
     }
 
-    
     public Procedimento buscarProcedimento(int id) {
         String sql = "SELECT * FROM procedimento WHERE id = ?";
 
+        // Obter a data atual
         try (
-             PreparedStatement statement = conexao.prepareStatement(sql)) {
+                PreparedStatement statement = conexao.prepareStatement(sql)) {
 
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
@@ -104,7 +107,7 @@ public class ProcedimentoDAO {
                 LocalDateTime dataCriacao = resultSet.getObject("data_criacao", LocalDateTime.class);
                 LocalDateTime dataModificacao = resultSet.getObject("data_modificacao", LocalDateTime.class);
 
-                Consulta consulta = ConsultaDAO.buscarConsulta(consultaId);
+                Consulta consulta = consutControl.buscarConsulta(consultaId);
 
                 return new Procedimento(procedimentoId, nome, consulta, diaHorario, estado, valor, laudo, dataCriacao, dataModificacao);
             }
@@ -115,13 +118,13 @@ public class ProcedimentoDAO {
 
         return null;
     }
+
     public List<Procedimento> listarProcedimentos() {
         List<Procedimento> procedimentos = new ArrayList<>();
         String sql = "SELECT * FROM procedimento";
 
         try (
-             PreparedStatement statement = conexao.prepareStatement(sql);
-             ResultSet resultSet = statement.executeQuery()) {
+                PreparedStatement statement = conexao.prepareStatement(sql); ResultSet resultSet = statement.executeQuery()) {
 
             while (resultSet.next()) {
                 Procedimento procedimento = criarProcedimento(resultSet);
@@ -140,7 +143,7 @@ public class ProcedimentoDAO {
         String sql = "SELECT * FROM procedimento WHERE consulta_id = ?";
 
         try (
-             PreparedStatement statement = conexao.prepareStatement(sql)) {
+                PreparedStatement statement = conexao.prepareStatement(sql)) {
 
             statement.setInt(1, consulta.getId());
             ResultSet resultSet = statement.executeQuery();
@@ -162,7 +165,7 @@ public class ProcedimentoDAO {
         String sql = "SELECT * FROM procedimento WHERE consulta_id = ? AND dia_horario BETWEEN ? AND ?";
 
         try (
-             PreparedStatement statement = conexao.prepareStatement(sql)) {
+                PreparedStatement statement = conexao.prepareStatement(sql)) {
 
             statement.setInt(1, consulta.getId());
             statement.setObject(2, dataInicio);
@@ -193,7 +196,7 @@ public class ProcedimentoDAO {
         LocalDateTime dataModificacao = resultSet.getObject("data_modificacao", LocalDateTime.class);
 
         //ConsultaDAO consultaDAO = new ConsultaDAO();
-        Consulta consulta = ConsultaDAO.buscarConsulta(consultaId);
+        Consulta consulta = consutControl.buscarConsulta(consultaId);
 
         return new Procedimento(id, nome, consulta, diaHorario, estado, valor, laudo, dataCriacao, dataModificacao);
     }

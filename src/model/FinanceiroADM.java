@@ -85,6 +85,7 @@ public class FinanceiroADM {
     private static int gerarNovoId() {
         return proximoId++;
     }
+
     public static FinanceiroADM gerarFinanceiroADMAleatorio() {
         TipoMovimento[] tiposMovimento = TipoMovimento.values();
         String[] unidades = {"Unidade A", "Unidade B", "Unidade C", "Unidade D"};
@@ -102,6 +103,5 @@ public class FinanceiroADM {
 
         return financeiroADM;
     }
-
 
 }

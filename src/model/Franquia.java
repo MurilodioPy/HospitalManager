@@ -40,9 +40,10 @@ public class Franquia {
         this.dataCriacao = dataCriacao;
         this.dataModificacao = dataModificacao;
     }
+
     public Franquia() {
     }
-    
+
     public int getId() {
         return id;
     }
@@ -110,6 +111,7 @@ public class Franquia {
     public FinanceiroADM[] getDespesas() {
         return this.despesas;
     }
+
     public static Franquia gerarFranquiaAleatoria() {
         PessoaController controller = new PessoaController();
         String[] nomes = {"Franquia A", "Franquia B", "Franquia C", "Franquia D", "Franquia E"};
@@ -118,7 +120,7 @@ public class Franquia {
         String[] enderecos = {"Rua 1", "Rua 2", "Rua 3", "Rua 4", "Rua 5"};
         Pessoa responsavel = Pessoa.gerarPessoaAleatoria();
         controller.cadastrarPessoa(responsavel);
-        
+
         Random random = new Random();
 
         String nome = nomes[random.nextInt(nomes.length)];
@@ -135,17 +137,17 @@ public class Franquia {
 
     @Override
     public String toString() {
-        return "Franquia{" 
-                + "id=" + id 
-                + ", nome=" + nome 
-                + ", cnpj=" + cnpj 
-                + ", cidade=" + cidade 
-                + ", endereco=" + endereco 
+        return "Franquia{"
+                + "id=" + id
+                + ", nome=" + nome
+                + ", cnpj=" + cnpj
+                + ", cidade=" + cidade
+                + ", endereco=" + endereco
                 + ", responsavel=" + responsavel.getNome()
-                + ", dataCriacao=" + dataCriacao 
-                + ", dataModificacao=" + dataModificacao 
-                + ", despesas=" + despesas 
+                + ", dataCriacao=" + dataCriacao
+                + ", dataModificacao=" + dataModificacao
+                + ", despesas=" + despesas
                 + ", despesasMedico=" + despesasMedico + '}';
     }
-   
+
 }

@@ -17,153 +17,156 @@ import model.Medico;
 import view.Main;
 
 public class RelatoriosGerais {
-	Scanner input = new Scanner(System.in);
 
-	public static void gerarRelatorioConsultas() {
-		try (Scanner input = new Scanner(System.in)) {
-			SimpleDateFormat dateFormat1 = new SimpleDateFormat("dd/MM/yyyy");
+    Scanner input = new Scanner(System.in);
 
-			System.out.println("----- RELATÓRIO DE CONSULTAS -----");
+    public static void gerarRelatorioConsultas() {
+        ConsultaController consutControl = new ConsultaController();
+        try (Scanner input = new Scanner(System.in)) {
+            SimpleDateFormat dateFormat1 = new SimpleDateFormat("dd/MM/yyyy");
 
-			// Escolha da data (opcional)
-			System.out.print("Deseja filtrar por data? (S/N): ");
-			String escolhaData = input.nextLine().trim();
+            System.out.println("----- RELATÓRIO DE CONSULTAS -----");
 
-			LocalDateTime dataInicio = null;
-			LocalDateTime dataFim = null;
+            // Escolha da data (opcional)
+            System.out.print("Deseja filtrar por data? (S/N): ");
+            String escolhaData = input.nextLine().trim();
 
-			if (escolhaData.equalsIgnoreCase("S")) {
-			    System.out.print("Digite a data de início (dd/mm/aaaa): ");
-			    String dataInicioStr = input.nextLine();
+            LocalDateTime dataInicio = null;
+            LocalDateTime dataFim = null;
 
-			    System.out.print("Digite a data de fim (dd/mm/aaaa): ");
-			    String dataFimStr = input.nextLine();
+            if (escolhaData.equalsIgnoreCase("S")) {
+                System.out.print("Digite a data de início (dd/mm/aaaa): ");
+                String dataInicioStr = input.nextLine();
 
-			    try {
-			        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-			        dataInicio = LocalDateTime.parse(dataInicioStr, formatter);
-			        dataFim = LocalDateTime.parse(dataFimStr, formatter);
-			    } catch (Exception e) {
-			        System.out.println("Formato de data inválido. Utilizando todas as consultas.");
-			    }
-			}
+                System.out.print("Digite a data de fim (dd/mm/aaaa): ");
+                String dataFimStr = input.nextLine();
 
-			// Escolha do médico (opcional)
-			System.out.print("Deseja filtrar por médico? (S/N): ");
-			String escolhaMedico = input.nextLine().trim();
-			Medico medico = null;
+                try {
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                    dataInicio = LocalDateTime.parse(dataInicioStr, formatter);
+                    dataFim = LocalDateTime.parse(dataFimStr, formatter);
+                } catch (Exception e) {
+                    System.out.println("Formato de data inválido. Utilizando todas as consultas.");
+                }
+            }
 
-			if (escolhaMedico.equalsIgnoreCase("S")) {
-				System.out.print("Digite o ID do médico: ");
-				int idMedico = input.nextInt();
-				input.nextLine(); // Consumir a quebra de linha após o nextInt
+            // Escolha do médico (opcional)
+            System.out.print("Deseja filtrar por médico? (S/N): ");
+            String escolhaMedico = input.nextLine().trim();
+            Medico medico = null;
 
-				MedicoController medicoController = new MedicoController();
-				medico = medicoController.buscarMedico(idMedico);
-			}
+            if (escolhaMedico.equalsIgnoreCase("S")) {
+                System.out.print("Digite o ID do médico: ");
+                int idMedico = input.nextInt();
+                input.nextLine(); // Consumir a quebra de linha após o nextInt
 
-			System.out.println();
+                MedicoController medicoController = new MedicoController();
+                medico = medicoController.buscarMedico(idMedico);
+            }
 
-			List<Consulta> consultas = ConsultaController.listarConsultasPorFiltro(dataInicio, dataFim, medico);
+            System.out.println();
 
-			if (consultas.size() <= 0) {
-				System.out.println("Não foram encontradas consultas com os filtros selecionados.");
-			} else {
-				System.out.println("Consultas encontradas:");
-				for (Consulta consultalista : consultas) {
-					System.out.println("ID: " + consultalista.getId());
-					System.out.println("Data: " + consultalista.getData());
-					System.out.println("Hora: " + consultalista.getHora());
-					System.out.println("Estado: " + consultalista.getEstado());
-					System.out.println("Médico: " + consultalista.getMedico().getNome());
-					System.out.println("Paciente: " + consultalista.getPaciente().getNome());
-					System.out.println("Valor: " + consultalista.getValor());
-					System.out.println("Unidade: " + consultalista.getUnidade().getNome());
-					System.out.println("------------------------------------");
-				}
-			}
-		}
-	}
-	public static void relatorioADM() throws ParseException {
-		try (Scanner scanner = new Scanner(System.in)) {
-			boolean sair = false;
-			int opcaoMenu = -1;
+            List<Consulta> consultas = consutControl.listarConsultasPorFiltro(dataInicio, dataFim, medico);
 
-			do {
-				System.out.println("----- Relatorio Administrativo -----");
-				System.out.println("1. Relatório de pagamento de Medico - SOMENTE DIA 01 Mensal ");
-				System.out.println("2. Relatório Financeiro da Unidade");
-				System.out.println("0. Sair");
-				System.out.print("Digite a opção desejada: ");
-				opcaoMenu = scanner.nextInt();
-				scanner.nextLine(); // para consumir a quebra de linha deixada pelo nextInt
+            if (consultas.size() <= 0) {
+                System.out.println("Não foram encontradas consultas com os filtros selecionados.");
+            } else {
+                System.out.println("Consultas encontradas:");
+                for (Consulta consultalista : consultas) {
+                    System.out.println("ID: " + consultalista.getId());
+                    System.out.println("Data: " + consultalista.getData());
+                    System.out.println("Hora: " + consultalista.getHora());
+                    System.out.println("Estado: " + consultalista.getEstado());
+                    System.out.println("Médico: " + consultalista.getMedico().getNome());
+                    System.out.println("Paciente: " + consultalista.getPaciente().getNome());
+                    System.out.println("Valor: " + consultalista.getValor());
+                    System.out.println("Unidade: " + consultalista.getUnidade().getNome());
+                    System.out.println("------------------------------------");
+                }
+            }
+        }
+    }
 
-				switch (opcaoMenu) {
-				case 1: {
-					Medico medico = null;
-					 // Obter a data atual
-			        Date dataAtual = new Date();
+    public static void relatorioADM() throws ParseException {
+        try (Scanner scanner = new Scanner(System.in)) {
+            boolean sair = false;
+            int opcaoMenu = -1;
 
-			        // Verificar se é dia 01 do mês
-			        Calendar calendar = Calendar.getInstance();
-			        calendar.setTime(dataAtual);
-			        if (calendar.get(Calendar.DAY_OF_MONTH) == 1) {
-			            MedicoController medicoController = new MedicoController();
-			            double montanteTotalPago = medicoController.calcularMontantePagoUltimoMes(medico);
-			            System.out.println("Montante total pago ao médico no último mês: R$ " + montanteTotalPago+ " .");
-			        }
-			        else {
-			        	System.out.println("Não é data para pagamento.");
-			        }
-					break;
-				}
-				case 2: {
-					break;
-				}
-				case 0: {
-					sair = true;
-					Main.exibirMenu();
-				}
-				}
+            do {
+                System.out.println("----- Relatorio Administrativo -----");
+                System.out.println("1. Relatório de pagamento de Medico - SOMENTE DIA 01 Mensal ");
+                System.out.println("2. Relatório Financeiro da Unidade");
+                System.out.println("0. Sair");
+                System.out.print("Digite a opção desejada: ");
+                opcaoMenu = scanner.nextInt();
+                scanner.nextLine(); // para consumir a quebra de linha deixada pelo nextInt
 
-			} while (!sair);
-		}
-	}
+                switch (opcaoMenu) {
+                    case 1: {
+                        Medico medico = null;
+                        // Obter a data atual
+                        Date dataAtual = new Date();
 
-	public static void menuRelatorio() throws ParseException {
-		try (Scanner scanner = new Scanner(System.in)) {
-			boolean sair = false;
-			int opcaoMenu = -1;
+                        // Verificar se é dia 01 do mês
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.setTime(dataAtual);
+                        if (calendar.get(Calendar.DAY_OF_MONTH) == 1) {
+                            MedicoController medicoController = new MedicoController();
+                            double montanteTotalPago = medicoController.calcularMontantePagoUltimoMes(medico);
+                            System.out.println("Montante total pago ao médico no último mês: R$ " + montanteTotalPago + " .");
+                        } else {
+                            System.out.println("Não é data para pagamento.");
+                        }
+                        break;
+                    }
+                    case 2: {
+                        break;
+                    }
+                    case 0: {
+                        sair = true;
+                        Main.exibirMenu();
+                    }
+                }
 
-			do {
-				System.out.println("----- Menu de Relatórios -----");
-				System.out.println("1. Relatório de Consultas");
-				System.out.println("2. Relatório Financeiro");
-				System.out.println("0. Sair");
-				System.out.print("Digite a opção desejada: ");
-				opcaoMenu = scanner.nextInt();
-				scanner.nextLine(); // para consumir a quebra de linha deixada pelo nextInt
+            } while (!sair);
+        }
+    }
 
-				switch (opcaoMenu) {
-				case 1: {
-					gerarRelatorioConsultas();
-					break;
-				}
-				case 2: {
-					relatorioADM();
-					break;
-				}
-				case 0: {
-					sair = true;
-					break;}
-				 default:
-                     System.out.println("Opção inválida.");
-             }
-             exibirMenu();
+    public static void menuRelatorio() throws ParseException {
+        try (Scanner scanner = new Scanner(System.in)) {
+            boolean sair = false;
+            int opcaoMenu = -1;
 
-			} while (!sair);
-		}
+            do {
+                System.out.println("----- Menu de Relatórios -----");
+                System.out.println("1. Relatório de Consultas");
+                System.out.println("2. Relatório Financeiro");
+                System.out.println("0. Sair");
+                System.out.print("Digite a opção desejada: ");
+                opcaoMenu = scanner.nextInt();
+                scanner.nextLine(); // para consumir a quebra de linha deixada pelo nextInt
 
-	}
+                switch (opcaoMenu) {
+                    case 1: {
+                        gerarRelatorioConsultas();
+                        break;
+                    }
+                    case 2: {
+                        relatorioADM();
+                        break;
+                    }
+                    case 0: {
+                        sair = true;
+                        break;
+                    }
+                    default:
+                        System.out.println("Opção inválida.");
+                }
+                exibirMenu();
+
+            } while (!sair);
+        }
+
+    }
 
 }

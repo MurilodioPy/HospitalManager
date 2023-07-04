@@ -51,7 +51,7 @@ public class Main {
                     FranquiaController.cadastrarFranquiasAleatorias();
                     //UnidadeController.cadastrarUnidadesAleatorias();
                     //ConsultaController.cadastrarConsultasAleatorias();
-                   // InfoConsultaController.cadastrarInfoConsultasAleatorias();
+                    // InfoConsultaController.cadastrarInfoConsultasAleatorias();
                     //ProcedimentoController.cadastrarProcedimentosAleatorios();
                     //FinanceiroADMController.cadastrarFinanceirosADMAleatorios();
                     //FinanceiroMedicoController.cadastrarFinanceirosMedicosAleatorios();

@@ -14,4 +14,3 @@ public enum PgtoMedico {
         return descricao;
     }
 }
-

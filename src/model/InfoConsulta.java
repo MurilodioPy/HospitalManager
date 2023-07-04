@@ -12,7 +12,7 @@ public class InfoConsulta extends Consulta {
     private LocalDateTime dataCriacao;
     private LocalDateTime dataModificacao;
 
-    public InfoConsulta(int id, LocalDateTime data, String hora, EstadoConsulta estado, Medico medico, 
+    public InfoConsulta(int id, LocalDateTime data, String hora, String estado, Medico medico,
             Pessoa paciente, double valor, Unidade unidade, String descricao, LocalDateTime dataCriacao, LocalDateTime dataModificacao) {
         super(data, hora, estado, medico, paciente, valor, unidade, dataModificacao, dataModificacao);
         this.id = gerarNovoId();
@@ -41,13 +41,13 @@ public class InfoConsulta extends Consulta {
     public LocalDateTime getDataModificacao() {
         return dataModificacao;
     }
-    
+
     private static int proximoId = 1;
 
     private static int gerarNovoId() {
         return proximoId++;
     }
-    
+
     public static InfoConsulta gerarInfoConsultaAleatoria() {
         String[] horas = {"08:00", "09:00", "10:00", "11:00", "13:00", "14:00", "15:00", "16:00"};
 
@@ -55,13 +55,13 @@ public class InfoConsulta extends Consulta {
 
         LocalDateTime dataConsulta = LocalDateTime.now().plusDays(random.nextInt(30) + 1); // Gera uma data aleatória nos próximos 30 dias
         String horaConsulta = horas[random.nextInt(horas.length)];
-        EstadoConsulta estadoConsulta = EstadoConsulta.values()[random.nextInt(EstadoConsulta.values().length)]; // Gera um estado aleatório a partir dos valores possíveis na enumeração EstadoConsulta
+        String estadoConsulta = EstadoConsulta.values()[random.nextInt(EstadoConsulta.values().length)].getEstado(); // Gera um estado aleatório a partir dos valores possíveis na enumeração EstadoConsulta
         Medico medico = Medico.gerarMedicoAleatorio();
         Pessoa paciente = Pessoa.gerarPessoaAleatoria();
         double valorConsulta = random.nextDouble() * 300; // Gera um valor aleatório entre 0 e 300
 
         Unidade unidade = new Unidade();
-                //Unidade.gerarUnidadeAleatoria();
+        //Unidade.gerarUnidadeAleatoria();
 
         String descricao = "Descrição da consulta " + gerarNovoId();
         LocalDateTime dataCriacao = LocalDateTime.now();

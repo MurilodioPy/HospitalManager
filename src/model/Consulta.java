@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
-
 import model.enums.EstadoConsulta;
 
 public class Consulta {
@@ -12,19 +11,19 @@ public class Consulta {
     private int id;
     private LocalDateTime data;
     private String hora;
-    private EstadoConsulta estado;
+    private String estado;
     private Medico medico;
     private Pessoa paciente;
     private double valor;
     private Unidade unidade;
     private LocalDateTime dataCriacao;
     private LocalDateTime dataModificacao;
-    
+
     public Consulta() {
-    	
+
     }
 
-    public Consulta(LocalDateTime data, String hora, EstadoConsulta estado, Medico medico, Pessoa paciente, double valor, Unidade unidade, LocalDateTime dataCriacao, LocalDateTime dataModificacao) {
+    public Consulta(LocalDateTime data, String hora, String estado, Medico medico, Pessoa paciente, double valor, Unidade unidade, LocalDateTime dataCriacao, LocalDateTime dataModificacao) {
         this.data = data;
         this.hora = hora;
         this.estado = estado;
@@ -64,11 +63,11 @@ public class Consulta {
         this.hora = hora;
     }
 
-    public EstadoConsulta getEstado() {
+    public String getEstado() {
         return estado;
     }
 
-    public void setEstado(EstadoConsulta estado) {
+    public void setEstado(String estado) {
         this.estado = estado;
     }
 
@@ -152,16 +151,16 @@ public class Consulta {
 
         LocalDateTime dataConsulta = LocalDateTime.now().plusDays(random.nextInt(30) + 1);
         String horaConsulta = horas[random.nextInt(horas.length)];
-        EstadoConsulta estadoConsulta = EstadoConsulta.values()[random.nextInt(EstadoConsulta.values().length)];
+        String estadoConsulta;
+        estadoConsulta = EstadoConsulta.values()[random.nextInt(EstadoConsulta.values().length)].getEstado();
         Medico medico = Medico.gerarMedicoAleatorio();
         Pessoa paciente = Pessoa.gerarPessoaAleatoria();
         double valorConsulta = random.nextDouble() * 300;
 
         Unidade unidade = new Unidade();
-        
-                //Unidade.gerarUnidadeAleatoria();
 
-        Consulta consulta = new Consulta( dataConsulta, horaConsulta, estadoConsulta, medico, paciente, valorConsulta, unidade, LocalDateTime.now(), LocalDateTime.now());
+        //Unidade.gerarUnidadeAleatoria();
+        Consulta consulta = new Consulta(dataConsulta, horaConsulta, estadoConsulta, medico, paciente, valorConsulta, unidade, LocalDateTime.now(), LocalDateTime.now());
 
         return consulta;
     }

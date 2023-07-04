@@ -32,6 +32,7 @@ public class Pessoa {
         this.dataCriacao = dataCriacao;
         this.dataModificacao = dataModificacao;
     }
+
     public static Pessoa gerarPessoaAleatoria() {
         String[] tiposUsuario = {"DonoFranquia", "DonoUnidadeFranquia", "Administrativo", "Médico", "Paciente"};
         String[] nomes = {"Ana", "Maria", "João", "Pedro", "Luiza", "Gabriel", "Lucas", "Juliana", "Renata", "Thiago"};
@@ -52,9 +53,10 @@ public class Pessoa {
         LocalDateTime dataModificacao = LocalDateTime.now();
 
         Pessoa pessoa = new Pessoa(nome, endereco, cpf, telefone, login, senha, tipoUsuario, dataCriacao, dataModificacao);
-        
+
         return pessoa;
     }
+
     public int getId() {
         return id;
     }
